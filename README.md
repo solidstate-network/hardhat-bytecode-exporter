@@ -5,7 +5,7 @@ Export Ethereum smart contract bytecode on compilation via Hardhat.
 ## Installation
 
 ```bash
-yarn add --dev hardhat-bytecode-exporter
+yarn add --dev @solidstate/hardhat-bytecode-exporter
 ```
 
 ## Usage
@@ -13,7 +13,7 @@ yarn add --dev hardhat-bytecode-exporter
 Load plugin in Hardhat config:
 
 ```javascript
-require('hardhat-bytecode-exporter');
+require('@solidstate/hardhat-bytecode-exporter');
 ```
 
 Add configuration under the `bytecodeExporter` key:
