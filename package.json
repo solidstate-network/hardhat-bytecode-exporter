@@ -1,12 +1,12 @@
 {
-  "name": "hardhat-abi-exporter",
+  "name": "hardhat-bytecode-exporter",
   "version": "2.10.0",
   "license": "MIT",
-  "description": "Export Ethereum smart contract ABIs on compilation",
+  "description": "Export Ethereum smart contract bytecode on compilation",
   "keywords": [
     "hardhat",
     "buidler",
-    "abi",
+    "bytecode",
     "solidity",
     "solc",
     "smart-contracts",
@@ -16,7 +16,7 @@
     "wow",
     "dapps"
   ],
-  "repository": "https://github.com/ItsNickBarry/hardhat-abi-exporter",
+  "repository": "https://github.com/ItsNickBarry/hardhat-bytecode-exporter",
   "author": "Nick Barry",
   "main": "index.js",
   "types": "index.d.ts",

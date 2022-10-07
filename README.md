@@ -1,13 +1,11 @@
-# Hardhat ABI Exporter
+# Hardhat Bytecode Exporter
 
-Export Ethereum smart contract ABIs on compilation via Hardhat.
-
-> Versions of this plugin prior to `2.0.0` were released as `buidler-abi-exporter`.
+Export Ethereum smart contract bytecode on compilation via Hardhat.
 
 ## Installation
 
 ```bash
-yarn add --dev hardhat-abi-exporter
+yarn add --dev hardhat-bytecode-exporter
 ```
 
 ## Usage
@@ -15,10 +13,10 @@ yarn add --dev hardhat-abi-exporter
 Load plugin in Hardhat config:
 
 ```javascript
-require('hardhat-abi-exporter');
+require('hardhat-bytecode-exporter');
 ```
 
-Add configuration under the `abiExporter` key:
+Add configuration under the `bytecodeExporter` key:
 
 | option | description | default |
 |-|-|-|
@@ -37,7 +35,7 @@ Add configuration under the `abiExporter` key:
  Note that the configuration formatted as either a single `Object`, or an `Array` of objects.  An `Array` may be used to specify multiple outputs.
 
 ```javascript
-abiExporter: {
+bytecodeExporter: {
   path: './data/abi',
   runOnCompile: true,
   clear: true,
@@ -50,7 +48,7 @@ abiExporter: {
 
 // or
 
-abiExporter: [
+bytecodeExporter: [
   {
     path: './abi/pretty',
     pretty: true,
@@ -63,7 +61,7 @@ abiExporter: [
 
 // or
 
-abiExporter: [
+bytecodeExporter: [
   {
     path: './abi/json',
     format: "json",
@@ -82,14 +80,14 @@ abiExporter: [
 The included Hardhat tasks may be run manually:
 
 ```bash
-yarn run hardhat export-abi
-yarn run hardhat clear-abi
+yarn run hardhat export-bytecode
+yarn run hardhat clear-bytecode
 ```
 
-By default, the hardhat `compile` task is run before exporting ABIs.  This behavior can be disabled with the `--no-compile` flag:
+By default, the hardhat `compile` task is run before exporting bytecode.  This behavior can be disabled with the `--no-compile` flag:
 
 ```bash
-yarn run hardhat export-abi --no-compile
+yarn run hardhat export-bytecode --no-compile
 ```
 
 
@@ -97,4 +95,4 @@ The `path` directory will be created if it does not exist.
 
 The `clear` option is set to `false` by default because it represents a destructive action, but should be set to `true` in most cases.
 
-ABIs files are saved in the format `[CONTRACT_NAME].json`.
+Bytecode files are saved in the format `[CONTRACT_NAME].bin`.

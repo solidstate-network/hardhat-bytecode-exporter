@@ -20,18 +20,18 @@ const readdirRecursive = function(dirPath, output = []) {
   return output;
 };
 
-task('clear-abi', async function (args, hre) {
-  const configs = hre.config.abiExporter;
+task('clear-bytecode', async function (args, hre) {
+  const configs = hre.config.bytecodeExporter;
 
-  await Promise.all(configs.map((abiExporterConfig) => {
-    return hre.run('clear-abi-group', { path: abiExporterConfig.path });
+  await Promise.all(configs.map((bytecodeExporterConfig) => {
+    return hre.run('clear-bytecode-group', { path: bytecodeExporterConfig.path });
   }));
 });
 
 subtask(
-  'clear-abi-group'
+  'clear-bytecode-group'
 ).addParam(
-  'path', 'path to look for ABIs', undefined, types.string
+  'path', 'path to look for exported bytecode', undefined, types.string
 ).setAction(async function (args, hre) {
   const outputDirectory = path.resolve(hre.config.paths.root, args.path);
 

@@ -1,6 +1,6 @@
 import 'hardhat/types/config';
 
-interface AbiExporterUserConfig {
+interface BytecodeExporterUserConfig {
   path?: string,
   runOnCompile?: boolean,
   clear?: boolean,
@@ -16,11 +16,11 @@ interface AbiExporterUserConfig {
 
 declare module 'hardhat/types/config' {
   interface HardhatUserConfig {
-    abiExporter?: AbiExporterUserConfig | AbiExporterUserConfig[]
+    bytecodeExporter?: BytecodeExporterUserConfig | BytecodeExporterUserConfig[]
   }
 
   interface HardhatConfig {
-    abiExporter: {
+    bytecodeExporter: {
       path: string,
       runOnCompile: boolean,
       clear: boolean,

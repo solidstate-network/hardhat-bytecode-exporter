@@ -34,7 +34,7 @@ function validate(config, key, type) {
 }
 
 extendConfig(function (config, userConfig) {
-  config.abiExporter = [userConfig.abiExporter].flat().map(function (el) {
+  config.bytecodeExporter = [userConfig.bytecodeExporter].flat().map(function (el) {
     const conf = Object.assign({}, DEFAULT_CONFIG, el);
     validate(conf, 'path', 'string');
     validate(conf, 'runOnCompile', 'boolean');

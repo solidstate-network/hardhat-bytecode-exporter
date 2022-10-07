@@ -3,16 +3,16 @@ const {
 } = require('hardhat/builtin-tasks/task-names');
 
 task(TASK_COMPILE).addFlag(
-  'noExportAbi', 'Don\'t export ABI after running this task, even if runOnCompile option is enabled'
+  'noExportBytecode', 'Don\'t export bytecode after running this task, even if runOnCompile option is enabled'
 ).setAction(async function (args, hre, runSuper) {
   await runSuper();
 
-  if (!args.noExportAbi && !hre.__SOLIDITY_COVERAGE_RUNNING) {
-    const configs = hre.config.abiExporter;
+  if (!args.noExportBytecode && !hre.__SOLIDITY_COVERAGE_RUNNING) {
+    const configs = hre.config.bytecodeExporter;
 
-    await Promise.all(configs.map(abiGroupConfig => {
-      if (abiGroupConfig.runOnCompile) {
-        return hre.run('export-abi-group', { abiGroupConfig });
+    await Promise.all(configs.map(bytecodeGroupConfig => {
+      if (bytecodeGroupConfig.runOnCompile) {
+        return hre.run('export-bytecode-group', { bytecodeGroupConfig });
       }
     }));
   }

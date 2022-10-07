@@ -8,27 +8,27 @@ const {
 } = require('hardhat/builtin-tasks/task-names');
 
 task(
-  'export-abi'
+  'export-bytecode'
 ).addFlag(
   'noCompile', 'Don\'t compile before running this task'
 ).setAction(async function (args, hre) {
   if (!args.noCompile) {
-    await hre.run(TASK_COMPILE, { noExportAbi: true });
+    await hre.run(TASK_COMPILE, { noExportbytecode: true });
   }
 
-  const configs = hre.config.abiExporter;
+  const configs = hre.config.bytecodeExporter;
 
-  await Promise.all(configs.map(abiGroupConfig => {
-    return hre.run('export-abi-group', { abiGroupConfig });
+  await Promise.all(configs.map(bytecodeGroupConfig => {
+    return hre.run('export-bytecode-group', { bytecodeGroupConfig });
   }));
 });
 
 subtask(
-  'export-abi-group'
+  'export-bytecode-group'
 ).addParam(
-  'abiGroupConfig', 'a single abi-exporter config object', undefined, types.any
+  'bytecodeGroupConfig', 'a single bytecode-exporter config object', undefined, types.any
 ).setAction(async function (args, hre) {
-  const { abiGroupConfig: config } = args;
+  const { bytecodeGroupConfig: config } = args;
 
   const outputDirectory = path.resolve(hre.config.paths.root, config.path);
 
@@ -76,7 +76,7 @@ subtask(
   }, new Set());
 
   if (config.clear) {
-    await hre.run('clear-abi-group', { path: config.path });
+    await hre.run('clear-bytecode-group', { path: config.path });
   }
 
   await Promise.all(outputData.map(async function ({ abi, destination }) {
