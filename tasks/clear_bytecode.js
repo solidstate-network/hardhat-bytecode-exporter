@@ -2,7 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const deleteEmpty = require('delete-empty');
 const { types } = require('hardhat/config');
-const { Interface } = require('@ethersproject/abi');
 
 const readdirRecursive = function(dirPath, output = []) {
   const files = fs.readdirSync(dirPath);
@@ -47,11 +46,11 @@ subtask(
       return;
     }
 
-    const contents = await fs.promises.readFile(file);
+    // const contents = await fs.promises.readFile(file);
 
     try {
       // attempt to parse ABI from file contents
-      new Interface(contents.toString());
+      // new Interface(contents.toString());
     } catch (e) {
       // file is not an ABI - do not delete
       return;

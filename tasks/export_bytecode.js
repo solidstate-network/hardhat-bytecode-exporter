@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const { HardhatPluginError } = require('hardhat/plugins');
-const { Interface, FormatTypes } = require('@ethersproject/abi');
 const { types } = require('hardhat/config');
 const {
   TASK_COMPILE,
@@ -51,9 +50,9 @@ subtask(
     abi = abi.filter((element, index, array) => config.filter(element, index, array, fullName));
 
     if (config.format == 'minimal') {
-      abi = new Interface(abi).format(FormatTypes.minimal);
+      // abi = new Interface(abi).format(FormatTypes.minimal);
     } else if (config.format == 'fullName') {
-      abi = new Interface(abi).format(FormatTypes.fullName);
+      // abi = new Interface(abi).format(FormatTypes.fullName);
     } else if (config.format != 'json') {
       throw new HardhatPluginError(`Unknown format: ${config.format}`);
     }
