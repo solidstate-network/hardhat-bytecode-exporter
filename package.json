@@ -1,6 +1,6 @@
 {
   "name": "hardhat-bytecode-exporter",
-  "version": "2.10.0",
+  "version": "0.0.0",
   "license": "MIT",
   "description": "Export Ethereum smart contract bytecode on compilation",
   "keywords": [
@@ -16,7 +16,7 @@
     "wow",
     "dapps"
   ],
-  "repository": "https://github.com/ItsNickBarry/hardhat-bytecode-exporter",
+  "repository": "github:solidstate-network/hardhat-bytecode-exporter",
   "author": "Nick Barry",
   "main": "index.js",
   "types": "index.d.ts",
