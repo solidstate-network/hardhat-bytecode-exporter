@@ -42,17 +42,16 @@ subtask(
 
   await Promise.all(files.map(async function (file) {
     if (path.extname(file) !== '.json') {
-      // ABIs must be stored as JSON
+      // bytecode must be stored as JSON
       return;
     }
 
-    // const contents = await fs.promises.readFile(file);
+    const contents = await fs.promises.readFile(file);
 
-    try {
-      // attempt to parse ABI from file contents
-      // new Interface(contents.toString());
-    } catch (e) {
-      // file is not an ABI - do not delete
+    // TODO: validate that bytecode is only data contained in file
+    // TODO: validate that bytecode is valid hex
+
+    if (!contents.bytecode) {
       return;
     }
 
