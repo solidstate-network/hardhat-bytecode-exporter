@@ -3,8 +3,8 @@ const { extendConfig } = require('hardhat/config');
 const { HardhatPluginError } = require('hardhat/plugins');
 const { name: PLUGIN_NAME } = require('./package.json');
 
-require('./tasks/clear_abi.js');
-require('./tasks/export_abi.js');
+require('./tasks/clear_bytecode.js');
+require('./tasks/export_bytecode.js');
 require('./tasks/compile.js');
 
 const DEFAULT_CONFIG = {
