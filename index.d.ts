@@ -8,7 +8,6 @@ interface BytecodeExporterUserConfig {
   only?: string[],
   except?: string[],
   spacing?: number,
-  filter?: (abiElement: any, index: number, abi: any, fullyQualifiedName: string) => boolean,
   rename?: (sourceName: string, contractName: string) => string,
 }
 
@@ -26,7 +25,6 @@ declare module 'hardhat/types/config' {
       only: string[],
       except: string[],
       spacing: number,
-      filter: (abiElement: any, index: number, abi: any, fullyQualifiedName: string) => boolean,
       rename: (sourceName: string, contractName: string) => string,
     }[]
   }

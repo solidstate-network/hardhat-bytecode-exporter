@@ -47,8 +47,6 @@ subtask(
 
     if (!abi.length) return;
 
-    abi = abi.filter((element, index, array) => config.filter(element, index, array, fullName));
-
     const destination = path.resolve(
       outputDirectory,
       config.rename(sourceName, contractName)
