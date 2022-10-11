@@ -47,7 +47,7 @@ subtask(
 
     let { bytecode, sourceName, contractName } = await hre.artifacts.readArtifact(fullName);
 
-    if (bytecode == '0x') return;
+    if (!bytecode.length || bytecode == '0x') return;
 
     const destination = path.resolve(
       outputDirectory,
