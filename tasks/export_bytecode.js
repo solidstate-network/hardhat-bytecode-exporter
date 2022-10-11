@@ -6,6 +6,8 @@ const {
   TASK_COMPILE,
 } = require('hardhat/builtin-tasks/task-names');
 
+const { name: PLUGIN_NAME } = require('../package.json');
+
 task(
   'export-bytecode'
 ).addFlag(
@@ -32,7 +34,7 @@ subtask(
   const outputDirectory = path.resolve(hre.config.paths.root, config.path);
 
   if (outputDirectory === hre.config.paths.root) {
-    throw new HardhatPluginError('resolved path must not be root directory');
+    throw new HardhatPluginError(PLUGIN_NAME, 'resolved path must not be root directory');
   }
 
   const outputData = [];
@@ -43,21 +45,21 @@ subtask(
     if (config.only.length && !config.only.some(m => fullName.match(m))) return;
     if (config.except.length && config.except.some(m => fullName.match(m))) return;
 
-    let { abi, sourceName, contractName } = await hre.artifacts.readArtifact(fullName);
+    let { bytecode, sourceName, contractName } = await hre.artifacts.readArtifact(fullName);
 
-    if (!abi.length) return;
+    if (bytecode == '0x') return;
 
     const destination = path.resolve(
       outputDirectory,
       config.rename(sourceName, contractName)
-    ) + '.json';
+    ) + '.bin';
 
-    outputData.push({ abi, destination });
+    outputData.push({ bytecode, destination });
   }));
 
   outputData.reduce(function (acc, { destination }) {
     if (acc.has(destination)) {
-      throw new HardhatPluginError(`duplicate output destination: ${ destination }`);
+      throw new HardhatPluginError(PLUGIN_NAME, `duplicate output destination: ${ destination }`);
     }
 
     acc.add(destination);
@@ -68,8 +70,8 @@ subtask(
     await hre.run('clear-bytecode-group', { path: config.path });
   }
 
-  await Promise.all(outputData.map(async function ({ abi, destination }) {
+  await Promise.all(outputData.map(async function ({ bytecode, destination }) {
     await fs.promises.mkdir(path.dirname(destination), { recursive: true });
-    await fs.promises.writeFile(destination, `${JSON.stringify(abi, null, config.spacing)}\n`, { flag: 'w' });
+    await fs.promises.writeFile(destination, bytecode, { flag: 'w' });
   }));
 });
