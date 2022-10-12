@@ -14,7 +14,6 @@ const DEFAULT_CONFIG = {
   flat: false,
   only: [],
   except: [],
-  spacing: 2,
   // `rename` is not defaulted as it may depend on `flat` option
 };
 
@@ -39,7 +38,6 @@ extendConfig(function (config, userConfig) {
     validate(conf, 'flat', 'boolean');
     validate(conf, 'only', 'array');
     validate(conf, 'except', 'array');
-    validate(conf, 'spacing', 'number');
 
     if (conf.flat && typeof conf.rename !== 'undefined') {
       throw new HardhatPluginError(PLUGIN_NAME, '`flat` & `rename` config cannot be specified together');

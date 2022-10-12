@@ -7,7 +7,6 @@ interface BytecodeExporterUserConfig {
   flat?: boolean,
   only?: string[],
   except?: string[],
-  spacing?: number,
   rename?: (sourceName: string, contractName: string) => string,
 }
 
@@ -24,7 +23,6 @@ declare module 'hardhat/types/config' {
       flat: boolean,
       only: string[],
       except: string[],
-      spacing: number,
       rename: (sourceName: string, contractName: string) => string,
     }[]
   }

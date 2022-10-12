@@ -20,8 +20,6 @@ require("@solidstate/hardhat-bytecode-exporter");
 
 Add configuration under the `bytecodeExporter` key:
 
-<!-- TODO: Delete flat, spacing, rename -->
-
 | option         | description                                                                                                                                            | default        |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------- |
 | `path`         | path to bytecode export directory (relative to Hardhat root)                                                                                           | `'./bytecode'` |
@@ -30,31 +28,29 @@ Add configuration under the `bytecodeExporter` key:
 | `flat`         | whether to flatten output directory (may cause name collisions)                                                                                        | `false`        |
 | `only`         | `Array` of `String` matchers used to select included contracts, defaults to all contracts if `length` is 0                                             | `[]`           |
 | `except`       | `Array` of `String` matchers used to exclude contracts                                                                                                 | `[]`           |
-| `spacing`      | number of spaces per indentation level of formatted output                                                                                             | `2`            |
 | `rename`       | `Function` with signature `(sourceName: string, contractName: string) => string` used to rename an exported bytecode (incompatible with `flat` option) | `undefined`    |
 
 Note that the configuration formatted as either a single `Object`, or an `Array` of objects. An `Array` may be used to specify multiple outputs.
 
 ```javascript
 bytecodeExporter: {
-  path: './data/bytecode',
+  path: './data',
   runOnCompile: true,
   clear: true,
   flat: true,
   only: [':ERC20$'],
-  spacing: 2,
 }
 
 // or
 
 bytecodeExporter: [
   {
-    path: './bytecode',
+    path: './only',
     runOnCompile: true,
     only: [':ERC20$'],
   },
   {
-    path: './data/bytecode',
+    path: './except',
     except: [':ERC20$'],
   },
 ]
