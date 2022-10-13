@@ -48,10 +48,10 @@ subtask(
 
     const contents = await fs.promises.readFile(file);
 
-    // TODO: validate that bytecode is only data contained in file
-    // TODO: validate that bytecode is valid hex
+    const str = contents.toString()
+    const re = /^0x[0-9A-F]/i;
 
-    if (!contents.byteLength) {
+    if(!contents.byteLength || !re.test(str)) {
       return;
     }
 
