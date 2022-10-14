@@ -19,7 +19,7 @@ const readdirRecursive = function(dirPath, output = []) {
   return output;
 };
 
-task('clear-bytecode', async function (args, hre) {
+task('clear-bytecode', async function (_, hre) {
   const configs = hre.config.bytecodeExporter;
 
   await Promise.all(configs.map((bytecodeExporterConfig) => {
@@ -41,17 +41,17 @@ subtask(
   const files = readdirRecursive(outputDirectory);
 
   await Promise.all(files.map(async function (file) {
-    if (path.extname(file) !== '.json') {
-      // bytecode must be stored as JSON
+    if (path.extname(file) !== '.bin') {
+      // bytecode must be stored as bin
       return;
     }
 
     const contents = await fs.promises.readFile(file);
 
-    // TODO: validate that bytecode is only data contained in file
-    // TODO: validate that bytecode is valid hex
+    const str = contents.toString()
+    const re = /^0x[0-9A-F]/i;
 
-    if (!contents.bytecode) {
+    if(!contents.byteLength || !re.test(str)) {
       return;
     }
 

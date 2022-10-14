@@ -8,13 +8,12 @@ require('./tasks/export_bytecode.js');
 require('./tasks/compile.js');
 
 const DEFAULT_CONFIG = {
-  path: './abi',
+  path: './bytecode',
   runOnCompile: false,
   clear: false,
   flat: false,
   only: [],
   except: [],
-  spacing: 2,
   // `rename` is not defaulted as it may depend on `flat` option
 };
 
@@ -39,14 +38,13 @@ extendConfig(function (config, userConfig) {
     validate(conf, 'flat', 'boolean');
     validate(conf, 'only', 'array');
     validate(conf, 'except', 'array');
-    validate(conf, 'spacing', 'number');
 
     if (conf.flat && typeof conf.rename !== 'undefined') {
       throw new HardhatPluginError(PLUGIN_NAME, '`flat` & `rename` config cannot be specified together');
     }
 
     if (conf.flat) {
-      conf.rename = (sourceName, contractName) => contractName;
+      conf.rename = (_, contractName) => contractName;
     }
 
     if (!conf.rename) {
