@@ -49,7 +49,7 @@ subtask(
     const contents = await fs.promises.readFile(file);
 
     const str = contents.toString();
-    const re = /^0x[0-9A-F]/i;
+    const re = /^[0-9A-F]/i;
 
     if(!contents.byteLength || !re.test(str)) {
       return;
