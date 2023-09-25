@@ -10,6 +10,7 @@ require('./tasks/compile.js');
 const DEFAULT_CONFIG = {
   path: './bytecode',
   runOnCompile: false,
+  includeDeployed: false,
   clear: false,
   flat: false,
   only: [],
@@ -34,6 +35,7 @@ extendConfig(function (config, userConfig) {
     const conf = Object.assign({}, DEFAULT_CONFIG, el);
     validate(conf, 'path', 'string');
     validate(conf, 'runOnCompile', 'boolean');
+    validate(conf, "includeDeployed", 'boolean');
     validate(conf, 'clear', 'boolean');
     validate(conf, 'flat', 'boolean');
     validate(conf, 'only', 'array');
