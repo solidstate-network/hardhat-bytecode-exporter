@@ -1,10 +1,19 @@
-const fs = require('fs');
-const path = require('path');
-const { HardhatPluginError } = require('hardhat/plugins');
-const { types } = require('hardhat/config');
-const { TASK_COMPILE } = require('hardhat/builtin-tasks/task-names');
+import { name as pluginName } from '../../package.json';
+import fs from 'fs';
+import { TASK_COMPILE } from 'hardhat/builtin-tasks/task-names';
+import { task, subtask, types } from 'hardhat/config';
+import { HardhatPluginError } from 'hardhat/plugins';
+import path from 'path';
 
-const { name: PLUGIN_NAME } = require('../package.json');
+interface BytecodeExporterConfigEntry {
+  path: string;
+  runOnCompile: boolean;
+  clear: boolean;
+  flat: boolean;
+  only: string[];
+  except: string[];
+  rename: (sourceName: string, contractName: string) => string;
+}
 
 task('export-bytecode')
   .addFlag('noCompile', "Don't compile before running this task")
@@ -30,18 +39,20 @@ subtask('export-bytecode-group')
     types.any,
   )
   .setAction(async function (args, hre) {
-    const { bytecodeGroupConfig: config } = args;
+    const { bytecodeGroupConfig: config } = args as {
+      bytecodeGroupConfig: BytecodeExporterConfigEntry;
+    };
 
     const outputDirectory = path.resolve(hre.config.paths.root, config.path);
 
     if (outputDirectory === hre.config.paths.root) {
       throw new HardhatPluginError(
-        PLUGIN_NAME,
+        pluginName,
         'resolved path must not be root directory',
       );
     }
 
-    const outputData = [];
+    const outputData: { bytecode: string; destination: string }[] = [];
 
     const fullNames = await hre.artifacts.getAllFullyQualifiedNames();
 
@@ -75,7 +86,7 @@ subtask('export-bytecode-group')
     outputData.reduce(function (acc, { destination }) {
       if (acc.has(destination)) {
         throw new HardhatPluginError(
-          PLUGIN_NAME,
+          pluginName,
           `duplicate output destination: ${destination}`,
         );
       }

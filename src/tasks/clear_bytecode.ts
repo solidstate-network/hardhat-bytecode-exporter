@@ -1,9 +1,9 @@
-const fs = require('fs');
-const path = require('path');
-const deleteEmpty = require('delete-empty');
-const { types } = require('hardhat/config');
+import deleteEmpty from 'delete-empty';
+import fs from 'fs';
+import { task, subtask, types } from 'hardhat/config';
+import path from 'path';
 
-const readdirRecursive = function (dirPath, output = []) {
+const readdirRecursive = function (dirPath: string, output: string[] = []) {
   const files = fs.readdirSync(dirPath);
 
   files.forEach(function (file) {

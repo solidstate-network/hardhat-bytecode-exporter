@@ -1,4 +1,5 @@
-const { TASK_COMPILE } = require('hardhat/builtin-tasks/task-names');
+import { TASK_COMPILE } from 'hardhat/builtin-tasks/task-names';
+import { task } from 'hardhat/config';
 
 task(TASK_COMPILE)
   .addFlag(
@@ -8,7 +9,7 @@ task(TASK_COMPILE)
   .setAction(async function (args, hre, runSuper) {
     await runSuper();
 
-    if (!args.noExportBytecode && !hre.__SOLIDITY_COVERAGE_RUNNING) {
+    if (!args.noExportBytecode && !(hre as any).__SOLIDITY_COVERAGE_RUNNING) {
       const configs = hre.config.bytecodeExporter;
 
       await Promise.all(
