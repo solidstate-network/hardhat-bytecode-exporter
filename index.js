@@ -20,39 +20,51 @@ const DEFAULT_CONFIG = {
 function validate(config, key, type) {
   if (type === 'array') {
     if (!Array.isArray(config[key])) {
-      throw new HardhatPluginError(PLUGIN_NAME, `\`${key}\` config must be an ${type}`);
+      throw new HardhatPluginError(
+        PLUGIN_NAME,
+        `\`${key}\` config must be an ${type}`,
+      );
     }
   } else {
     if (typeof config[key] !== type) {
-      throw new HardhatPluginError(PLUGIN_NAME, `\`${key}\` config must be a ${type}`);
+      throw new HardhatPluginError(
+        PLUGIN_NAME,
+        `\`${key}\` config must be a ${type}`,
+      );
     }
   }
 }
 
 extendConfig(function (config, userConfig) {
-  config.bytecodeExporter = [userConfig.bytecodeExporter].flat().map(function (el) {
-    const conf = Object.assign({}, DEFAULT_CONFIG, el);
-    validate(conf, 'path', 'string');
-    validate(conf, 'runOnCompile', 'boolean');
-    validate(conf, 'clear', 'boolean');
-    validate(conf, 'flat', 'boolean');
-    validate(conf, 'only', 'array');
-    validate(conf, 'except', 'array');
+  config.bytecodeExporter = [userConfig.bytecodeExporter]
+    .flat()
+    .map(function (el) {
+      const conf = Object.assign({}, DEFAULT_CONFIG, el);
+      validate(conf, 'path', 'string');
+      validate(conf, 'runOnCompile', 'boolean');
+      validate(conf, 'clear', 'boolean');
+      validate(conf, 'flat', 'boolean');
+      validate(conf, 'only', 'array');
+      validate(conf, 'except', 'array');
 
-    if (conf.flat && typeof conf.rename !== 'undefined') {
-      throw new HardhatPluginError(PLUGIN_NAME, '`flat` & `rename` config cannot be specified together');
-    }
+      if (conf.flat && typeof conf.rename !== 'undefined') {
+        throw new HardhatPluginError(
+          PLUGIN_NAME,
+          '`flat` & `rename` config cannot be specified together',
+        );
+      }
 
-    if (conf.flat) {
-      conf.rename = (_, contractName) => contractName;
-    }
+      if (conf.flat) {
+        conf.rename = (_, contractName) => contractName;
+      }
 
-    if (!conf.rename) {
-      conf.rename = (sourceName, contractName) => path.join(sourceName, contractName);
-    }
+      if (!conf.rename) {
+        conf.rename = (sourceName, contractName) =>
+          path.join(sourceName, contractName);
+      }
 
-    validate(conf, 'rename', 'function');
+      validate(conf, 'rename', 'function');
 
-    return conf;
-  });
+      return conf;
+    });
 });
