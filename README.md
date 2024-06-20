@@ -79,3 +79,17 @@ The `path` directory will be created if it does not exist.
 The `clear` option is set to `false` by default because it represents a destructive action, but should be set to `true` in most cases.
 
 Bytecode files are saved as a flat bin file in the format `[CONTRACT_NAME].bin`.
+
+## Development
+
+Install dependencies via Yarn:
+
+```bash
+yarn install
+```
+
+Setup Husky to format code on commit:
+
+```bash
+yarn prepare
+```
