@@ -3,10 +3,10 @@ const path = require('path');
 const deleteEmpty = require('delete-empty');
 const { types } = require('hardhat/config');
 
-const readdirRecursive = function(dirPath, output = []) {
+const readdirRecursive = function (dirPath, output = []) {
   const files = fs.readdirSync(dirPath);
 
-  files.forEach(function(file) {
+  files.forEach(function (file) {
     file = path.join(dirPath, file);
 
     if (fs.statSync(file).isDirectory()) {
@@ -22,41 +22,50 @@ const readdirRecursive = function(dirPath, output = []) {
 task('clear-bytecode', async function (_, hre) {
   const configs = hre.config.bytecodeExporter;
 
-  await Promise.all(configs.map((bytecodeExporterConfig) => {
-    return hre.run('clear-bytecode-group', { path: bytecodeExporterConfig.path });
-  }));
+  await Promise.all(
+    configs.map((bytecodeExporterConfig) => {
+      return hre.run('clear-bytecode-group', {
+        path: bytecodeExporterConfig.path,
+      });
+    }),
+  );
 });
 
-subtask(
-  'clear-bytecode-group'
-).addParam(
-  'path', 'path to look for exported bytecode', undefined, types.string
-).setAction(async function (args, hre) {
-  const outputDirectory = path.resolve(hre.config.paths.root, args.path);
+subtask('clear-bytecode-group')
+  .addParam(
+    'path',
+    'path to look for exported bytecode',
+    undefined,
+    types.string,
+  )
+  .setAction(async function (args, hre) {
+    const outputDirectory = path.resolve(hre.config.paths.root, args.path);
 
-  if (!fs.existsSync(outputDirectory)) {
-    return;
-  }
-
-  const files = readdirRecursive(outputDirectory);
-
-  await Promise.all(files.map(async function (file) {
-    if (path.extname(file) !== '.bin') {
-      // bytecode must be stored as bin
+    if (!fs.existsSync(outputDirectory)) {
       return;
     }
 
-    const contents = await fs.promises.readFile(file);
+    const files = readdirRecursive(outputDirectory);
 
-    const str = contents.toString();
-    const re = /^[0-9A-F]/i;
+    await Promise.all(
+      files.map(async function (file) {
+        if (path.extname(file) !== '.bin') {
+          // bytecode must be stored as bin
+          return;
+        }
 
-    if(!contents.byteLength || !re.test(str)) {
-      return;
-    }
+        const contents = await fs.promises.readFile(file);
 
-    await fs.promises.rm(file);
-  }));
+        const str = contents.toString();
+        const re = /^[0-9A-F]/i;
 
-  await deleteEmpty(outputDirectory);
-});
+        if (!contents.byteLength || !re.test(str)) {
+          return;
+        }
+
+        await fs.promises.rm(file);
+      }),
+    );
+
+    await deleteEmpty(outputDirectory);
+  });
