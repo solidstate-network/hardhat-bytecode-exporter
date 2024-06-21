@@ -57,7 +57,7 @@ extendConfig(function (config, userConfig) {
       el,
     );
 
-    if (conf.flat && typeof conf.rename !== 'undefined') {
+    if (conf.flat && conf.rename) {
       throw new HardhatPluginError(
         pluginName,
         '`flat` & `rename` config cannot be specified together',
@@ -65,7 +65,7 @@ extendConfig(function (config, userConfig) {
     }
 
     if (conf.flat) {
-      conf.rename = (_, contractName) => contractName;
+      conf.rename = (sourceName, contractName) => contractName;
     }
 
     if (!conf.rename) {
