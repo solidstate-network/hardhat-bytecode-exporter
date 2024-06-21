@@ -49,28 +49,6 @@ const DEFAULT_CONFIG = {
   // `rename` is not defaulted as it may depend on `flat` option
 };
 
-function validate(
-  config: BytecodeExporterUserConfigEntry,
-  key: keyof BytecodeExporterUserConfigEntry,
-  type: string,
-) {
-  if (type === 'array') {
-    if (!Array.isArray(config[key])) {
-      throw new HardhatPluginError(
-        pluginName,
-        `\`${key}\` config must be an ${type}`,
-      );
-    }
-  } else {
-    if (typeof config[key] !== type) {
-      throw new HardhatPluginError(
-        pluginName,
-        `\`${key}\` config must be a ${type}`,
-      );
-    }
-  }
-}
-
 extendConfig(function (config, userConfig) {
   config.bytecodeExporter = [userConfig.bytecodeExporter].flat().map((el) => {
     const conf: BytecodeExporterUserConfigEntry = Object.assign(
@@ -78,12 +56,6 @@ extendConfig(function (config, userConfig) {
       DEFAULT_CONFIG,
       el,
     );
-    validate(conf, 'path', 'string');
-    validate(conf, 'runOnCompile', 'boolean');
-    validate(conf, 'clear', 'boolean');
-    validate(conf, 'flat', 'boolean');
-    validate(conf, 'only', 'array');
-    validate(conf, 'except', 'array');
 
     if (conf.flat && typeof conf.rename !== 'undefined') {
       throw new HardhatPluginError(
@@ -100,8 +72,6 @@ extendConfig(function (config, userConfig) {
       conf.rename = (sourceName, contractName) =>
         path.join(sourceName, contractName);
     }
-
-    validate(conf, 'rename', 'function');
 
     return conf as BytecodeExporterConfigEntry;
   });
