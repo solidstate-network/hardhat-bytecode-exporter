@@ -17,7 +17,7 @@ interface BytecodeExporterUserConfigEntry {
   rename?: (sourceName: string, contractName: string) => string;
 }
 
-interface BytecodeExporterConfigEntry {
+export interface BytecodeExporterConfigEntry {
   path: string;
   runOnCompile: boolean;
   clear: boolean;

@@ -1,19 +1,10 @@
 import { name as pluginName } from '../../package.json';
+import { BytecodeExporterConfigEntry } from '../index';
 import fs from 'fs';
 import { TASK_COMPILE } from 'hardhat/builtin-tasks/task-names';
 import { task, subtask, types } from 'hardhat/config';
 import { HardhatPluginError } from 'hardhat/plugins';
 import path from 'path';
-
-interface BytecodeExporterConfigEntry {
-  path: string;
-  runOnCompile: boolean;
-  clear: boolean;
-  flat: boolean;
-  only: string[];
-  except: string[];
-  rename: (sourceName: string, contractName: string) => string;
-}
 
 task('export-bytecode')
   .addFlag('noCompile', "Don't compile before running this task")
