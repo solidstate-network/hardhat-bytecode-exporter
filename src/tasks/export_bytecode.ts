@@ -8,7 +8,7 @@ import path from 'path';
 
 task('export-bytecode')
   .addFlag('noCompile', "Don't compile before running this task")
-  .setAction(async function (args, hre) {
+  .setAction(async (args, hre) => {
     if (!args.noCompile) {
       await hre.run(TASK_COMPILE, { noExportbytecode: true });
     }
@@ -29,7 +29,7 @@ subtask('export-bytecode-group')
     undefined,
     types.any,
   )
-  .setAction(async function (args, hre) {
+  .setAction(async (args, hre) => {
     const { bytecodeGroupConfig: config } = args as {
       bytecodeGroupConfig: BytecodeExporterConfigEntry;
     };
@@ -48,7 +48,7 @@ subtask('export-bytecode-group')
     const fullNames = await hre.artifacts.getAllFullyQualifiedNames();
 
     await Promise.all(
-      fullNames.map(async function (fullName) {
+      fullNames.map(async (fullName) => {
         if (config.only.length && !config.only.some((m) => fullName.match(m)))
           return;
         if (
@@ -74,7 +74,7 @@ subtask('export-bytecode-group')
       }),
     );
 
-    outputData.reduce(function (acc, { destination }) {
+    outputData.reduce((acc, { destination }) => {
       if (acc.has(destination)) {
         throw new HardhatPluginError(
           pluginName,
@@ -91,7 +91,7 @@ subtask('export-bytecode-group')
     }
 
     await Promise.all(
-      outputData.map(async function ({ bytecode, destination }) {
+      outputData.map(async ({ bytecode, destination }) => {
         await fs.promises.mkdir(path.dirname(destination), { recursive: true });
         await fs.promises.writeFile(destination, bytecode, { flag: 'w' });
       }),

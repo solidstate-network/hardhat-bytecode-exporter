@@ -6,7 +6,7 @@ task(TASK_COMPILE)
     'noExportBytecode',
     "Don't export bytecode after running this task, even if runOnCompile option is enabled",
   )
-  .setAction(async function (args, hre, runSuper) {
+  .setAction(async (args, hre, runSuper) => {
     await runSuper();
 
     if (!args.noExportBytecode && !(hre as any).__SOLIDITY_COVERAGE_RUNNING) {

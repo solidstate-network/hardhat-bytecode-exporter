@@ -49,7 +49,7 @@ const DEFAULT_CONFIG = {
   // `rename` is not defaulted as it may depend on `flat` option
 };
 
-extendConfig(function (config, userConfig) {
+extendConfig((config, userConfig) => {
   config.bytecodeExporter = [userConfig.bytecodeExporter].flat().map((el) => {
     const conf: BytecodeExporterUserConfigEntry = Object.assign(
       {},
