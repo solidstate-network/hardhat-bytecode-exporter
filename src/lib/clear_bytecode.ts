@@ -48,10 +48,8 @@ const clearBytecodeGroup = async (
 
       const contents = await fs.promises.readFile(file, 'utf-8');
 
-      const str = contents;
-      const re = /^[0-9A-F]/i;
-
-      if (!contents.length || !re.test(str)) {
+      if (!/^[0-9A-F]/i.test(contents)) {
+        // file contains non-hex characters - do not delete
         return;
       }
 
