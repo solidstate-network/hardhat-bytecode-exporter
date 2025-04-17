@@ -18,6 +18,7 @@
   ],
   "repository": "github:solidstate-network/hardhat-bytecode-exporter",
   "author": "Nick Barry",
+  "type": "module",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
@@ -30,7 +31,7 @@
     "src/"
   ],
   "peerDependencies": {
-    "hardhat": "^2.0.0"
+    "hardhat": "3.0.0-next.4"
   },
   "dependencies": {
     "delete-empty": "^3.0.0"
@@ -42,7 +43,7 @@
     "@types/mocha": "^10.0.10",
     "@types/node": "^22.14.1",
     "chai": "^5.2.0",
-    "hardhat": "^2.23.0",
+    "hardhat": "3.0.0-next.4",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.1",
     "prettier": "^3.5.3",
