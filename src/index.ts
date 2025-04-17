@@ -1,6 +1,5 @@
 import pkg from '../package.json';
 import './tasks/clear_bytecode';
-import './tasks/compile';
 import './tasks/export_bytecode';
 import { globalOption } from 'hardhat/config';
 import { ArgumentType } from 'hardhat/types/arguments';
@@ -12,6 +11,7 @@ const plugin: HardhatPlugin = {
   npmPackage: pkg.name!,
   hookHandlers: {
     config: import.meta.resolve('./hooks/config.js'),
+    solidity: import.meta.resolve('./hooks/solidity.js'),
   },
   globalOptions: [
     globalOption({
