@@ -1,3 +1,4 @@
+import { TASK_CLEAR_BYTECODE } from '../task_names.js';
 import deleteEmpty from 'delete-empty';
 import fs from 'fs';
 import { task, subtask, types } from 'hardhat/config';
@@ -19,7 +20,7 @@ const readdirRecursive = (dirPath: string, output: string[] = []) => {
   return output;
 };
 
-task('clear-bytecode', async (_, hre) => {
+task(TASK_CLEAR_BYTECODE, async (_, hre) => {
   const configs = hre.config.bytecodeExporter;
 
   await Promise.all(
