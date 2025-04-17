@@ -2,43 +2,15 @@ import pkg from '../package.json';
 import './tasks/clear_bytecode';
 import './tasks/compile';
 import './tasks/export_bytecode';
+import type {
+  BytecodeExporterConfigEntry,
+  BytecodeExporterUserConfigEntry,
+} from './types.js';
 import { extendConfig } from 'hardhat/config';
 import { HardhatPluginError } from 'hardhat/plugins';
 import 'hardhat/types/config';
 import type { HardhatPlugin } from 'hardhat/types/plugins';
 import path from 'path';
-
-interface BytecodeExporterUserConfigEntry {
-  path?: string;
-  runOnCompile?: boolean;
-  clear?: boolean;
-  flat?: boolean;
-  only?: string[];
-  except?: string[];
-  rename?: (sourceName: string, contractName: string) => string;
-}
-
-export interface BytecodeExporterConfigEntry {
-  path: string;
-  runOnCompile: boolean;
-  clear: boolean;
-  flat: boolean;
-  only: string[];
-  except: string[];
-  rename: (sourceName: string, contractName: string) => string;
-}
-
-declare module 'hardhat/types/config' {
-  interface HardhatUserConfig {
-    bytecodeExporter?:
-      | BytecodeExporterUserConfigEntry
-      | BytecodeExporterUserConfigEntry[];
-  }
-
-  interface HardhatConfig {
-    bytecodeExporter: BytecodeExporterConfigEntry[];
-  }
-}
 
 const DEFAULT_CONFIG = {
   path: './bytecode',
