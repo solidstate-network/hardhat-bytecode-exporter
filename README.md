@@ -15,7 +15,16 @@ yarn add --dev @solidstate/hardhat-bytecode-exporter
 Load plugin in Hardhat config:
 
 ```javascript
-require('@solidstate/hardhat-bytecode-exporter');
+import HardhatBytecodeExporter from '@solidstate/hardhat-bytecode-exporter';
+
+const config: HardhatUserConfig = {
+  plugins: [
+    HardhatBytecodeExporter,
+  ],
+  bytecodeExporter: {
+    ... // see table for configuration options
+  },
+};
 ```
 
 Add configuration under the `bytecodeExporter` key:
