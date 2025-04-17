@@ -1,10 +1,11 @@
-import { name as pluginName } from '../package.json';
+import pkg from '../package.json';
 import './tasks/clear_bytecode';
 import './tasks/compile';
 import './tasks/export_bytecode';
 import { extendConfig } from 'hardhat/config';
 import { HardhatPluginError } from 'hardhat/plugins';
 import 'hardhat/types/config';
+import type { HardhatPlugin } from 'hardhat/types/plugins';
 import path from 'path';
 
 interface BytecodeExporterUserConfigEntry {
@@ -59,7 +60,7 @@ extendConfig((config, userConfig) => {
 
     if (conf.flat && conf.rename) {
       throw new HardhatPluginError(
-        pluginName,
+        pkg.name,
         '`flat` & `rename` config cannot be specified together',
       );
     }
@@ -76,3 +77,10 @@ extendConfig((config, userConfig) => {
     return conf as BytecodeExporterConfigEntry;
   });
 });
+
+const plugin: HardhatPlugin = {
+  id: pkg.name!,
+  npmPackage: pkg.name!,
+};
+
+export default plugin;
