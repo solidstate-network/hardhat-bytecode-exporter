@@ -9,3 +9,9 @@ declare module 'hardhat/types/config' {
     bytecodeExporter?: BytecodeExporterUserConfig;
   }
 }
+
+declare module 'hardhat/types/global-options' {
+  interface GlobalOptions {
+    noExportBytecode: boolean;
+  }
+}
