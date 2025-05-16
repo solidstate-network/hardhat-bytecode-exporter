@@ -2,9 +2,9 @@ import pkg from '../package.json';
 import taskClean from './tasks/clean.js';
 import taskClearBytecode from './tasks/clear_bytecode.js';
 import taskExportBytecode from './tasks/export_bytecode.js';
+import './type_extensions.js';
 import { globalOption } from 'hardhat/config';
 import { ArgumentType } from 'hardhat/types/arguments';
-import 'hardhat/types/config';
 import type { HardhatPlugin } from 'hardhat/types/plugins';
 
 // TODO: clean hook
