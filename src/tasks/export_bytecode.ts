@@ -79,9 +79,8 @@ subtask('export-bytecode-group')
         const deployedDestination =
           path.resolve(
             outputDirectory,
-            'deployed',
             config.rename(sourceName, contractName),
-          ) + '.bin-runtime';
+          ) + '.deployed.bin';
 
         outputData.push({
           bytecode,
@@ -122,9 +121,6 @@ subtask('export-bytecode-group')
           await fs.promises.writeFile(destination, bytecode, { flag: 'w' });
 
           if (config.includeDeployed) {
-            await fs.promises.mkdir(path.dirname(deployedDestination), {
-              recursive: true,
-            });
             await fs.promises.writeFile(deployedDestination, deployedBytecode, {
               flag: 'w',
             });
