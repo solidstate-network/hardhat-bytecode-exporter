@@ -1,3 +1,4 @@
+import { exportBytecode } from '../lib/export_bytecode.js';
 import type { SolidityHooks } from 'hardhat/types/hooks';
 
 export default async (): Promise<Partial<SolidityHooks>> => ({
@@ -10,8 +11,7 @@ export default async (): Promise<Partial<SolidityHooks>> => ({
         (entry) => entry.runOnCompile,
       );
 
-      // TODO: add lib function
-      //   await exportBytecode(context, entries);
+      await exportBytecode(context, entries);
     }
 
     return next(context, artifactPaths);
