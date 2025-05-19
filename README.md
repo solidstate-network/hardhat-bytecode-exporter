@@ -39,7 +39,7 @@ Add configuration under the `bytecodeExporter` key:
 | `except`       | `Array` of `String` matchers used to exclude contracts                                                                                                 | `[]`           |
 | `rename`       | `Function` with signature `(sourceName: string, contractName: string) => string` used to rename an exported bytecode (incompatible with `flat` option) | `undefined`    |
 
-Note that the configuration formatted as either a single `Object`, or an `Array` of objects. An `Array` may be used to specify multiple outputs.
+Note that the configuration may be formatted as either a single `Object`, or an `Array` of objects specifying multiple outputs.
 
 ```javascript
 bytecodeExporter: {
