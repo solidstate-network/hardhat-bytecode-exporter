@@ -1,7 +1,6 @@
 export interface BytecodeExporterConfigEntry {
   path: string;
   runOnCompile: boolean;
-  includeDeployed: boolean;
   clear: boolean;
   flat: boolean;
   only: string[];

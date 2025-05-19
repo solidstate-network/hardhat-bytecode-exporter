@@ -62,13 +62,11 @@ const exportBytecodeGroup = async (
 
       const destination =
         path.resolve(outputDirectory, config.rename(sourceName, contractName)) +
-        '.bin';
+        '.init.bin';
 
       const deployedDestination =
         path.resolve(outputDirectory, config.rename(sourceName, contractName)) +
         '.deployed.bin';
-
-      // TODO: respond to config.includeDeployed
 
       return [
         {

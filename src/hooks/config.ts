@@ -11,7 +11,6 @@ import path from 'node:path';
 const DEFAULT_CONFIG: Omit<BytecodeExporterConfigEntry, 'rename'> = {
   path: './bytecode',
   runOnCompile: false,
-  includeDeployed: false,
   clear: false,
   flat: false,
   only: [],
