@@ -36,6 +36,7 @@ Note that the configuration formatted as either a single `Object`, or an `Array`
 bytecodeExporter: {
   path: './data',
   runOnCompile: true,
+  includeDeployed: true,
   clear: true,
   flat: true,
   only: [':ERC20$'],

@@ -10,6 +10,7 @@ import path from 'path';
 interface BytecodeExporterUserConfigEntry {
   path?: string;
   runOnCompile?: boolean;
+  includeDeployed?: boolean;
   clear?: boolean;
   flat?: boolean;
   only?: string[];
@@ -20,6 +21,7 @@ interface BytecodeExporterUserConfigEntry {
 export interface BytecodeExporterConfigEntry {
   path: string;
   runOnCompile: boolean;
+  includeDeployed: boolean;
   clear: boolean;
   flat: boolean;
   only: string[];
@@ -42,6 +44,7 @@ declare module 'hardhat/types/config' {
 const DEFAULT_CONFIG = {
   path: './bytecode',
   runOnCompile: false,
+  includeDeployed: false,
   clear: false,
   flat: false,
   only: [],

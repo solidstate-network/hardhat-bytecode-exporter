@@ -43,7 +43,12 @@ subtask('export-bytecode-group')
       );
     }
 
-    const outputData: { bytecode: string; destination: string }[] = [];
+    const outputData: {
+      bytecode: string;
+      deployedBytecode: string;
+      destination: string;
+      deployedDestination: string;
+    }[] = [];
 
     const fullNames = await hre.artifacts.getAllFullyQualifiedNames();
 
@@ -57,10 +62,11 @@ subtask('export-bytecode-group')
         )
           return;
 
-        let { bytecode, sourceName, contractName } =
+        let { bytecode, deployedBytecode, sourceName, contractName } =
           await hre.artifacts.readArtifact(fullName);
 
         bytecode = bytecode.replace(/^0x/, '');
+        deployedBytecode = deployedBytecode.replace(/^0x/, '');
 
         if (!bytecode.length) return;
 
@@ -70,7 +76,19 @@ subtask('export-bytecode-group')
             config.rename(sourceName, contractName),
           ) + '.bin';
 
-        outputData.push({ bytecode, destination });
+        const deployedDestination =
+          path.resolve(
+            outputDirectory,
+            'deployed',
+            config.rename(sourceName, contractName),
+          ) + '.bin-runtime';
+
+        outputData.push({
+          bytecode,
+          deployedBytecode,
+          destination,
+          deployedDestination,
+        });
       }),
     );
 
@@ -91,9 +109,27 @@ subtask('export-bytecode-group')
     }
 
     await Promise.all(
-      outputData.map(async ({ bytecode, destination }) => {
-        await fs.promises.mkdir(path.dirname(destination), { recursive: true });
-        await fs.promises.writeFile(destination, bytecode, { flag: 'w' });
-      }),
+      outputData.map(
+        async ({
+          bytecode,
+          deployedBytecode,
+          destination,
+          deployedDestination,
+        }) => {
+          await fs.promises.mkdir(path.dirname(destination), {
+            recursive: true,
+          });
+          await fs.promises.writeFile(destination, bytecode, { flag: 'w' });
+
+          if (config.includeDeployed) {
+            await fs.promises.mkdir(path.dirname(deployedDestination), {
+              recursive: true,
+            });
+            await fs.promises.writeFile(deployedDestination, deployedBytecode, {
+              flag: 'w',
+            });
+          }
+        },
+      ),
     );
   });
