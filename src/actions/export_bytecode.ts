@@ -1,4 +1,5 @@
 import { exportBytecode } from '../lib/export_bytecode.js';
+import { TASK_COMPILE } from '../task_names.js';
 import type { NewTaskActionFunction } from 'hardhat/types/tasks';
 
 interface ExportBytecodeActionArguments {
@@ -13,8 +14,7 @@ const action: NewTaskActionFunction<ExportBytecodeActionArguments> = async (
 
   if (!args.noCompile) {
     hre.globalOptions.noExportBytecode = true;
-    // TODO: import task name constant
-    await hre.tasks.getTask('compile').run();
+    await hre.tasks.getTask(TASK_COMPILE).run();
   }
 
   await exportBytecode(hre, hre.config.bytecodeExporter);
