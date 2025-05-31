@@ -1,4 +1,4 @@
-import pkg from '../package.json';
+import pkg from '../package.json' with { type: 'json' };
 import taskClean from './tasks/clean.js';
 import taskClearBytecode from './tasks/clear_bytecode.js';
 import taskExportBytecode from './tasks/export_bytecode.js';
