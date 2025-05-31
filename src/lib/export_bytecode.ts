@@ -4,6 +4,7 @@ import type {
   BytecodeExporterConfigEntry,
 } from '../types.js';
 import { clearBytecode } from './clear_bytecode.js';
+import { filter } from '@solidstate/hardhat-solidstate-utils/filter';
 import { HardhatPluginError } from 'hardhat/plugins';
 import type { HookContext } from 'hardhat/types/hooks';
 import fs from 'node:fs';
@@ -37,15 +38,10 @@ const exportBytecodeGroup = async (
 
   // get list of all contracts and filter according to configuraiton
 
-  const fullNames = Array.from(
-    await context.artifacts.getAllFullyQualifiedNames(),
-  ).filter((fullName) => {
-    if (config.only.length && !config.only.some((m) => fullName.match(m)))
-      return false;
-    if (config.except.length && config.except.some((m) => fullName.match(m)))
-      return false;
-    return true;
-  });
+  const fullNames = filter(
+    Array.from(await context.artifacts.getAllFullyQualifiedNames()),
+    config,
+  );
 
   // get contract artifacts
 

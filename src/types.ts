@@ -1,12 +1,12 @@
-export interface BytecodeExporterConfigEntry {
+import type { FilterOptions } from '@solidstate/hardhat-solidstate-utils/types';
+
+export type BytecodeExporterConfigEntry = {
   path: string;
   runOnCompile: boolean;
   clear: boolean;
   flat: boolean;
-  only: string[];
-  except: string[];
   rename: (sourceName: string, contractName: string) => string;
-}
+} & FilterOptions;
 
 export type BytecodeExporterUserConfigEntry =
   Partial<BytecodeExporterConfigEntry>;
