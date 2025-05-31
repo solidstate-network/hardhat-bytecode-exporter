@@ -45,15 +45,28 @@ const exportBytecodeGroup = async (
   const outputData = artifacts
     .filter(({ bytecode }) => bytecode.length)
     .map((artifact) => {
-      const { sourceName, contractName, bytecode } = artifact;
+      const { sourceName, contractName, bytecode, deployedBytecode } = artifact;
 
-      const contents = bytecode.replace(/^0x/, '');
       const destination =
         path.resolve(outputDirectory, config.rename(sourceName, contractName)) +
-        '.bin';
+        '.init.bin';
 
-      return { destination, contents };
-    });
+      const deployedDestination =
+        path.resolve(outputDirectory, config.rename(sourceName, contractName)) +
+        '.deployed.bin';
+
+      return [
+        {
+          contents: bytecode.replace(/^0x/, ''),
+          destination,
+        },
+        {
+          contents: deployedBytecode.replace(/^0x/, ''),
+          destination: deployedDestination,
+        },
+      ];
+    })
+    .flat();
 
   // check for filename clashes among exported files
 
