@@ -43,7 +43,7 @@ const exportBytecodeGroup = async (
   // filter out 0-size contracts and generate export file contents
 
   const outputData = artifacts
-    .filter(({ bytecode }) => bytecode.length)
+    .filter(({ bytecode }) => bytecode.length > 2)
     .map((artifact) => {
       const { sourceName, contractName, bytecode, deployedBytecode } = artifact;
 
