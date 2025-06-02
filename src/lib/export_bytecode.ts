@@ -4,10 +4,10 @@ import type {
   BytecodeExporterConfigEntry,
 } from '../types.js';
 import { clearBytecode } from './clear_bytecode.js';
+import { writeUtf8File } from '@nomicfoundation/hardhat-utils/fs';
 import { readArtifacts } from '@solidstate/hardhat-solidstate-utils/filter';
 import { HardhatPluginError } from 'hardhat/plugins';
 import type { HookContext } from 'hardhat/types/hooks';
-import fs from 'node:fs';
 import path from 'node:path';
 
 export const exportBytecode = async (
@@ -90,9 +90,8 @@ const exportBytecodeGroup = async (
   // write export files to disk
 
   await Promise.all(
-    outputData.map(async ({ destination, contents }) => {
-      await fs.promises.mkdir(path.dirname(destination), { recursive: true });
-      await fs.promises.writeFile(destination, contents);
-    }),
+    outputData.map(({ destination, contents }) =>
+      writeUtf8File(destination, contents),
+    ),
   );
 };
