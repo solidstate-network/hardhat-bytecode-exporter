@@ -1,6 +1,7 @@
 import type {
   BytecodeExporterConfig,
   BytecodeExporterConfigEntry,
+  BytecodeExporterUserConfigEntry,
 } from '../types.js';
 import type {
   ConfigHooks,
@@ -22,12 +23,15 @@ export default async (): Promise<Partial<ConfigHooks>> => ({
   validateUserConfig: async (userConfig) => {
     const errors: HardhatUserConfigValidationError[] = [];
 
-    const configEntries = [userConfig.bytecodeExporter ?? []].flat();
+    const userConfigEntries = [
+      userConfig.bytecodeExporter ??
+        (DEFAULT_CONFIG as BytecodeExporterUserConfigEntry),
+    ].flat();
 
-    for (let i = 0; i < configEntries.length; i++) {
-      const entry = configEntries[i];
+    for (let i = 0; i < userConfigEntries.length; i++) {
+      const userConfigEntry = userConfigEntries[i];
 
-      if (entry.flat && entry.rename) {
+      if (userConfigEntry.flat && userConfigEntry.rename) {
         errors.push({
           path: ['bytecodeExporter', i, 'flat'],
           message: '`flat` & `rename` config cannot be specified together',
@@ -49,20 +53,25 @@ export default async (): Promise<Partial<ConfigHooks>> => ({
   resolveUserConfig: async (userConfig, resolveConfigurationVariable, next) => {
     const bytecodeExporter: BytecodeExporterConfig = [];
 
-    for (const userConfigEntry of [userConfig.bytecodeExporter ?? []].flat()) {
-      const entry = {
+    const userConfigEntries = [
+      userConfig.bytecodeExporter ??
+        (DEFAULT_CONFIG as BytecodeExporterUserConfigEntry),
+    ].flat();
+
+    for (const userConfigEntry of userConfigEntries) {
+      const configEntry = {
         ...DEFAULT_CONFIG,
         ...userConfigEntry,
       };
 
       const rename =
-        entry.rename ??
-        (entry.flat
+        configEntry.rename ??
+        (configEntry.flat
           ? (sourceName, contractName) => contractName
           : (sourceName, contractName) => path.join(sourceName, contractName));
 
       bytecodeExporter.push({
-        ...entry,
+        ...configEntry,
         rename,
       });
     }
