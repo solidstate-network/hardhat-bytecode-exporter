@@ -8,7 +8,6 @@ import {
   readUtf8File,
   remove,
 } from '@nomicfoundation/hardhat-utils/fs';
-import deleteEmpty from 'delete-empty';
 import type { HookContext } from 'hardhat/types/hooks';
 import path from 'node:path';
 
@@ -55,5 +54,9 @@ const clearBytecodeGroup = async (
 
   // delete the directory if it's empty
 
-  await deleteEmpty(outputDirectory);
+  const remainingFiles = await getAllFilesMatching(outputDirectory);
+
+  if (remainingFiles.length === 0) {
+    await remove(outputDirectory);
+  }
 };
