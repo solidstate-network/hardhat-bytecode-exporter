@@ -2,9 +2,14 @@ import type {
   BytecodeExporterConfig,
   BytecodeExporterConfigEntry,
 } from '../types.js';
+import {
+  exists,
+  getAllFilesMatching,
+  readUtf8File,
+  remove,
+} from '@nomicfoundation/hardhat-utils/fs';
 import deleteEmpty from 'delete-empty';
 import type { HookContext } from 'hardhat/types/hooks';
-import fs from 'node:fs';
 import path from 'node:path';
 
 export const clearBytecode = async (
@@ -22,38 +27,29 @@ const clearBytecodeGroup = async (
 ) => {
   const outputDirectory = path.resolve(context.config.paths.root, config.path);
 
-  if (!fs.existsSync(outputDirectory)) {
+  if (!(await exists(outputDirectory))) {
     return;
   }
 
-  // recursively get all files from directory
+  // recursively get all relevant files from directory
 
-  const files = (
-    await fs.promises.readdir(outputDirectory, {
-      recursive: true,
-      withFileTypes: true,
-    })
-  )
-    .filter((dirent) => dirent.isFile())
-    .map((dirent) => path.resolve(dirent.parentPath, dirent.name));
+  const binFiles = await getAllFilesMatching(
+    outputDirectory,
+    (absolutePathToFile) => path.extname(absolutePathToFile) === '.bin',
+  );
 
   // validate file contents and delete
 
   await Promise.all(
-    files.map(async (file) => {
-      if (path.extname(file) !== '.bin') {
-        // bytecode must be stored as bin
-        return;
-      }
-
-      const contents = await fs.promises.readFile(file, 'utf-8');
+    binFiles.map(async (file) => {
+      const contents = await readUtf8File(file);
 
       if (!/^[0-9A-F]/i.test(contents)) {
         // file contains non-hex characters - do not delete
         return;
       }
 
-      await fs.promises.rm(file);
+      await remove(file);
     }),
   );
 
