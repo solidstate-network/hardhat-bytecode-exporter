@@ -1,7 +1,8 @@
 import pkg from '../package.json' with { type: 'json' };
+import taskBytecode from './tasks/bytecode.js';
+import taskBytecodeClean from './tasks/bytecode_clean.js';
+import taskBytecodeExport from './tasks/bytecode_export.js';
 import taskClean from './tasks/clean.js';
-import taskClearBytecode from './tasks/clear_bytecode.js';
-import taskExportBytecode from './tasks/export_bytecode.js';
 import './type_extensions.js';
 import { globalOption } from 'hardhat/config';
 import { ArgumentType } from 'hardhat/types/arguments';
@@ -20,7 +21,7 @@ const plugin: HardhatPlugin = {
       return HardhatSolidstateUtils;
     },
   ],
-  tasks: [taskClearBytecode, taskExportBytecode, taskClean],
+  tasks: [taskBytecode, taskBytecodeClean, taskBytecodeExport, taskClean],
   hookHandlers: {
     config: import.meta.resolve('./hooks/config.js'),
     solidity: import.meta.resolve('./hooks/solidity.js'),

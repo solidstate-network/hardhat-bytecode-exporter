@@ -2,11 +2,11 @@ import { exportBytecode } from '../lib/export_bytecode.js';
 import { TASK_COMPILE } from '../task_names.js';
 import type { NewTaskActionFunction } from 'hardhat/types/tasks';
 
-interface ExportBytecodeActionArguments {
+interface TaskActionArguments {
   noCompile: boolean;
 }
 
-const action: NewTaskActionFunction<ExportBytecodeActionArguments> = async (
+const action: NewTaskActionFunction<TaskActionArguments> = async (
   args,
   hre,
 ) => {
