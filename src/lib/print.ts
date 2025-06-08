@@ -1,4 +1,11 @@
 import { createTable } from '@solidstate/hardhat-solidstate-utils/table';
+import chalk from 'chalk';
+
+const formatBytecode = (bytecode: string) => {
+  return bytecode
+    .replace('0x', chalk.gray('0x'))
+    .replaceAll(/(__\$\w*\$__)/g, chalk.yellow('$1'));
+};
 
 export const printBytecode = (
   contractNameOrFullyQualifiedName: string,
@@ -22,11 +29,14 @@ export const printBytecode = (
 
   table.push([{ content: contractNameOrFullyQualifiedName, colSpan: 2 }]);
   table.push([
-    { content: `Initialization Bytecode (${bytecodeSize} bytes)`, colSpan: 2 },
+    {
+      content: 'Initialization Bytecode',
+    },
+    { content: chalk.gray(`${bytecodeSize} bytes`) },
   ]);
   table.push([
     {
-      content: bytecode,
+      content: formatBytecode(bytecode),
       colSpan: 2,
       wordWrap: true,
       wrapOnWordBoundary: false,
@@ -34,13 +44,15 @@ export const printBytecode = (
   ]);
   table.push([
     {
-      content: `Deployed Bytecode (${deployedBytecodeSize} bytes)`,
-      colSpan: 2,
+      content: 'Deployed Bytecode',
+    },
+    {
+      content: chalk.gray(`${deployedBytecodeSize} bytes`),
     },
   ]);
   table.push([
     {
-      content: deployedBytecode,
+      content: formatBytecode(deployedBytecode),
       colSpan: 2,
       wordWrap: true,
       wrapOnWordBoundary: false,

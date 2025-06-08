@@ -27,6 +27,9 @@ importers:
       '@types/node':
         specifier: ^22.15.29
         version: 22.15.29
+      chalk:
+        specifier: ^5.4.1
+        version: 5.4.1
       hardhat:
         specifier: ^3.0.0-next.13
         version: 3.0.0-next.13
