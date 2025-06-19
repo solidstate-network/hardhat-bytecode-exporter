@@ -36,7 +36,8 @@
     "prettier": "prettier --write ."
   },
   "dependencies": {
-    "@solidstate/hardhat-solidstate-utils": "1.0.0-next.3"
+    "@solidstate/hardhat-solidstate-utils": "1.0.0-next.3",
+    "chalk": "^5.4.1"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-utils": "3.0.0-next.13",
@@ -44,7 +45,6 @@
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@tsconfig/node22": "^22.0.2",
     "@types/node": "^24.0.1",
-    "chalk": "^5.4.1",
     "hardhat": "^3.0.0-next.15",
     "husky": "^9.1.7",
     "knip": "^5.61.0",
