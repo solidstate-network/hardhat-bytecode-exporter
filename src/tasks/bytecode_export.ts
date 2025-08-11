@@ -9,5 +9,5 @@ export default task(TASK_BYTECODE_EXPORT)
     name: 'noCompile',
     description: "Don't compile before running this task",
   })
-  .setAction(import.meta.resolve('../actions/bytecode_export.js'))
+  .setAction(() => import('../actions/bytecode_export.js'))
   .build();

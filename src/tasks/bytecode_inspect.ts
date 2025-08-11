@@ -10,5 +10,5 @@ export default task(TASK_BYTECODE_INSPECT)
     name: 'noCompile',
     description: "Don't compile before running this task",
   })
-  .setAction(import.meta.resolve('../actions/bytecode_inspect.js'))
+  .setAction(() => import('../actions/bytecode_inspect.js'))
   .build();
