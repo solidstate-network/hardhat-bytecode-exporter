@@ -1,78 +1,39 @@
-import { name as pluginName } from '../package.json';
-import './tasks/clear_bytecode';
-import './tasks/compile';
-import './tasks/export_bytecode';
-import { extendConfig } from 'hardhat/config';
-import { HardhatPluginError } from 'hardhat/plugins';
-import 'hardhat/types/config';
-import path from 'path';
+import pkg from '../package.json' with { type: 'json' };
+import taskBytecode from './tasks/bytecode.js';
+import taskBytecodeClean from './tasks/bytecode_clean.js';
+import taskBytecodeExport from './tasks/bytecode_export.js';
+import taskBytecodeInspect from './tasks/bytecode_inspect.js';
+import taskClean from './tasks/clean.js';
+import './type_extensions.js';
+import { globalOption } from 'hardhat/config';
+import { ArgumentType } from 'hardhat/types/arguments';
+import type { HardhatPlugin } from 'hardhat/types/plugins';
 
-interface BytecodeExporterUserConfigEntry {
-  path?: string;
-  runOnCompile?: boolean;
-  clear?: boolean;
-  flat?: boolean;
-  only?: string[];
-  except?: string[];
-  rename?: (sourceName: string, contractName: string) => string;
-}
+// TODO: clean hook
 
-export interface BytecodeExporterConfigEntry {
-  path: string;
-  runOnCompile: boolean;
-  clear: boolean;
-  flat: boolean;
-  only: string[];
-  except: string[];
-  rename: (sourceName: string, contractName: string) => string;
-}
-
-declare module 'hardhat/types/config' {
-  interface HardhatUserConfig {
-    bytecodeExporter?:
-      | BytecodeExporterUserConfigEntry
-      | BytecodeExporterUserConfigEntry[];
-  }
-
-  interface HardhatConfig {
-    bytecodeExporter: BytecodeExporterConfigEntry[];
-  }
-}
-
-const DEFAULT_CONFIG = {
-  path: './bytecode',
-  runOnCompile: false,
-  clear: false,
-  flat: false,
-  only: [],
-  except: [],
-  // `rename` is not defaulted as it may depend on `flat` option
+const plugin: HardhatPlugin = {
+  id: pkg.name!,
+  npmPackage: pkg.name!,
+  dependencies: () => [import('@solidstate/hardhat-solidstate-utils')],
+  tasks: [
+    taskBytecode,
+    taskBytecodeClean,
+    taskBytecodeExport,
+    taskBytecodeInspect,
+    taskClean,
+  ],
+  hookHandlers: {
+    config: () => import('./hooks/config.js'),
+    solidity: () => import('./hooks/solidity.js'),
+  },
+  globalOptions: [
+    globalOption({
+      name: 'noExportBytecode',
+      description: 'Disables bytecode exporting',
+      defaultValue: false,
+      type: ArgumentType.BOOLEAN,
+    }),
+  ],
 };
 
-extendConfig((config, userConfig) => {
-  config.bytecodeExporter = [userConfig.bytecodeExporter].flat().map((el) => {
-    const conf: BytecodeExporterUserConfigEntry = Object.assign(
-      {},
-      DEFAULT_CONFIG,
-      el,
-    );
-
-    if (conf.flat && conf.rename) {
-      throw new HardhatPluginError(
-        pluginName,
-        '`flat` & `rename` config cannot be specified together',
-      );
-    }
-
-    if (conf.flat) {
-      conf.rename = (sourceName, contractName) => contractName;
-    }
-
-    if (!conf.rename) {
-      conf.rename = (sourceName, contractName) =>
-        path.join(sourceName, contractName);
-    }
-
-    return conf as BytecodeExporterConfigEntry;
-  });
-});
+export default plugin;

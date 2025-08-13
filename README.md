@@ -7,7 +7,7 @@ Export Ethereum smart contract bytecode on compilation via Hardhat.
 ```bash
 npm install --save-dev @solidstate/hardhat-bytecode-exporter
 # or
-yarn add --dev @solidstate/hardhat-bytecode-exporter
+pnpm add -D @solidstate/hardhat-bytecode-exporter
 ```
 
 ## Usage
@@ -15,7 +15,16 @@ yarn add --dev @solidstate/hardhat-bytecode-exporter
 Load plugin in Hardhat config:
 
 ```javascript
-require('@solidstate/hardhat-bytecode-exporter');
+import HardhatBytecodeExporter from '@solidstate/hardhat-bytecode-exporter';
+
+const config: HardhatUserConfig = {
+  plugins: [
+    HardhatBytecodeExporter,
+  ],
+  bytecodeExporter: {
+    ... // see table for configuration options
+  },
+};
 ```
 
 Add configuration under the `bytecodeExporter` key:
@@ -30,7 +39,7 @@ Add configuration under the `bytecodeExporter` key:
 | `except`       | `Array` of `String` matchers used to exclude contracts                                                                                                 | `[]`           |
 | `rename`       | `Function` with signature `(sourceName: string, contractName: string) => string` used to rename an exported bytecode (incompatible with `flat` option) | `undefined`    |
 
-Note that the configuration formatted as either a single `Object`, or an `Array` of objects. An `Array` may be used to specify multiple outputs.
+Note that the configuration may be formatted as either a single `Object`, or an `Array` of objects specifying multiple outputs.
 
 ```javascript
 bytecodeExporter: {
@@ -62,8 +71,8 @@ The included Hardhat tasks may be run manually:
 npx hardhat export-bytecode
 npx hardhat clear-bytecode
 # or
-yarn run hardhat export-bytecode
-yarn run hardhat clear-bytecode
+pnpm hardhat export-bytecode
+pnpm hardhat clear-bytecode
 ```
 
 By default, the hardhat `compile` task is run before exporting bytecode. This behavior can be disabled with the `--no-compile` flag:
@@ -71,7 +80,7 @@ By default, the hardhat `compile` task is run before exporting bytecode. This be
 ```bash
 npx hardhat export-bytecode --no-compile
 # or
-yarn run hardhat export-bytecode --no-compile
+pnpm hardhat export-bytecode --no-compile
 ```
 
 The `path` directory will be created if it does not exist.
@@ -82,14 +91,14 @@ Bytecode files are saved as a flat bin file in the format `[CONTRACT_NAME].bin`.
 
 ## Development
 
-Install dependencies via Yarn:
+Install dependencies via pnpm:
 
 ```bash
-yarn install
+pnpm install
 ```
 
 Setup Husky to format code on commit:
 
 ```bash
-yarn prepare
+pnpm prepare
 ```
