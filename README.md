@@ -15,11 +15,11 @@ pnpm add -D @solidstate/hardhat-bytecode-exporter
 Load plugin in Hardhat config:
 
 ```javascript
-import HardhatBytecodeExporter from '@solidstate/hardhat-bytecode-exporter';
+import hardhatBytecodeExporter from '@solidstate/hardhat-bytecode-exporter';
 
 const config: HardhatUserConfig = {
   plugins: [
-    HardhatBytecodeExporter,
+    hardhatBytecodeExporter,
   ],
   bytecodeExporter: {
     ... // see table for configuration options
@@ -68,19 +68,19 @@ bytecodeExporter: [
 The included Hardhat tasks may be run manually:
 
 ```bash
-npx hardhat export-bytecode
-npx hardhat clear-bytecode
+npx hardhat bytecode export
+npx hardhat bytecode clean
 # or
-pnpm hardhat export-bytecode
-pnpm hardhat clear-bytecode
+pnpm hardhat bytecode export
+pnpm hardhat bytecode clean
 ```
 
 By default, the hardhat `compile` task is run before exporting bytecode. This behavior can be disabled with the `--no-compile` flag:
 
 ```bash
-npx hardhat export-bytecode --no-compile
+npx hardhat bytecode export --no-compile
 # or
-pnpm hardhat export-bytecode --no-compile
+pnpm hardhat bytecode export --no-compile
 ```
 
 The `path` directory will be created if it does not exist.
