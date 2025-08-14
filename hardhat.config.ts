@@ -5,7 +5,7 @@ const config: HardhatUserConfig = {
   plugins: [HardhatBytecodeExporter],
   solidity: {
     version: '0.8.30',
-    dependenciesToCompile: ['@solidstate/contracts/access/ownable/Ownable.sol'],
+    npmFilesToBuild: ['@solidstate/contracts/access/ownable/Ownable.sol'],
   },
 };
 
