@@ -2,7 +2,12 @@ import { exportBytecode } from '../lib/export_bytecode.js';
 import type { SolidityHooks } from 'hardhat/types/hooks';
 
 export default async (): Promise<Partial<SolidityHooks>> => ({
-  onCleanUpArtifacts: async (context, artifactPaths, next) => {
+  processArtifactsAfterSuccessfulBuild: async (
+    context,
+    artifactPaths,
+    buildRootFilePaths,
+    buildOptions,
+  ) => {
     if (
       !context.globalOptions.noExportBytecode &&
       !context.globalOptions.coverage
@@ -13,7 +18,5 @@ export default async (): Promise<Partial<SolidityHooks>> => ({
 
       await exportBytecode(context, entries);
     }
-
-    return next(context, artifactPaths);
   },
 });
